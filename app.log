@@ -1,0 +1,6 @@
+2025-12-02 16:16:08 [INFO] Music Player started
+2025-12-02 16:16:08 [INFO] Player: loading test.mp3
+2025-12-02 16:16:08 [INFO] FFmpegDecoder: opened test.mp3
+2025-12-02 16:16:08 [INFO] Player: play started
+2025-12-02 16:16:08 [INFO] Player: stopped
+2025-12-02 16:16:08 [INFO] Music Player finished

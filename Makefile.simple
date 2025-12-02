@@ -1,0 +1,25 @@
+# Simple Makefile for Music Player (no FFmpeg dependency for quick build)
+# Usage: make -f Makefile.simple
+
+CXX = g++
+CXXFLAGS = -std=c++17 -Wall -Wextra -I src/player -I src/decoder -I src/audio -I src/utils
+LDFLAGS = -pthread
+
+SOURCES = src/main.cpp src/utils/logger.cpp src/player/player.cpp
+OBJECTS = $(SOURCES:.cpp=.o)
+TARGET = bin/music_player
+
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS)
+	@mkdir -p bin
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
+	@echo "Build successful: $(TARGET)"
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+clean:
+	rm -f $(OBJECTS) $(TARGET)
+
+.PHONY: all clean

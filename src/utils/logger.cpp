@@ -1,6 +1,4 @@
-// logger.cpp
-
-#include "logger.h"
+﻿#include "logger.h"
 
 // LOGGER INSTANCE CREATION
 // Meyer's Singleton: created on first use, thread-safe by language guarantees.
@@ -12,7 +10,7 @@ Logger& Logger::instance() {
 // SET LOG FILE DESTINATION
 void Logger::setLogFile(const std::string& filename) {
     std::lock_guard<std::mutex> lock(logMutex);
-    
+
     // Close existing log (if any)
     if (logFile.is_open()) {
         logFile.close();
@@ -46,7 +44,7 @@ void Logger::log(LogLevel level, const std::string& message) {
     }
 }
 
-// LOG LEVEL → STRING
+// LOG LEVEL  STRING
 std::string Logger::levelToString(LogLevel level) {
     switch (level) {
         case LogLevel::DEBUG:    return "DEBUG";

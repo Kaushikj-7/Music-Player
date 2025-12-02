@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <string>
 #include <fstream>
 #include <mutex>
@@ -6,27 +6,28 @@
 #include <chrono>
 #include <iostream>
 
-enum class LogLevel{
+enum class LogLevel {
     DEBUG,
     INFO,
     WARNING,
-    ERROR
+    ERROR,
     CRITICAL
 };
 
-class Logger{
-    public: 
-     static Logger& instance();
-     void setLogFile(const std::string& filename);
-     void log(LogLevel level, const std::string& message);
-     
-    private:
-     Logger() =default;
-     Logger(const Logger&) = delete;
-     Logger& operator = (const Logger&) = delete;
-     std::string levelToString(LogLevel level);
-     std::string currentTimestamp();
+class Logger {
+public:
+    static Logger& instance();
+    void setLogFile(const std::string& filename);
+    void log(LogLevel level, const std::string& message);
 
-    private:
-      std::ofstream logFile;  // File stream for log output.
-      std::mutex logMutex;
+private:
+    Logger() = default;
+    Logger(const Logger&) = delete;
+    Logger& operator=(const Logger&) = delete;
+    std::string levelToString(LogLevel level);
+    std::string currentTimestamp();
+
+private:
+    std::ofstream logFile;  // File stream for log output.
+    std::mutex logMutex;
+};
