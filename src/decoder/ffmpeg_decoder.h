@@ -33,13 +33,15 @@
 #include <vector>
 #include <cstdint>
 
+// Forward declarations only; concrete FFmpeg headers stay in the .cpp so their
+// C-style macros do not leak into other translation units.
 extern "C" {
-#include <libavformat/avformat.h>
-#include <libavcodec/avcodec.h>
-#include <libswresample/swresample.h>
-#include <libavutil/opt.h>
-#include <libavutil/channel_layout.h>
-#include <libavutil/samplefmt.h>
+    struct AVFormatContext;
+    struct AVCodecContext;
+    struct SwrContext;
+    struct AVPacket;
+    struct AVFrame;
+    // enum AVSampleFormat : int; // Removed to avoid forward declaration issues
 }
 
 class FFmpegDecoder {
@@ -80,7 +82,7 @@ private:
     // Output format parameters (we resample to these)
     int out_sample_rate_;        // e.g., 44100
     int out_channels_;           // e.g., 2
-    AVSampleFormat out_sample_fmt_; // AV_SAMPLE_FMT_S16
+    int out_sample_fmt_;         // AV_SAMPLE_FMT_S16 (stored as int to avoid header dependency)
     uint64_t out_channel_layout_;   // channel layout mask
 
     bool eof_;                   // end-of-file reached flag

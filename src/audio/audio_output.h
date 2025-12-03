@@ -31,7 +31,7 @@
 // Forward declare PortAudio types to avoid including portaudio.h in header.
 // We will include portaudio.h in the .cpp implementation file.
 struct PaStreamParameters;
-typedef struct PaStream PaStream;
+// typedef struct PaStream PaStream; // Removed because PaStream is void in some versions
 
 class AudioOutput {
 public:
@@ -49,6 +49,10 @@ public:
 
     // Stop playback (blocks until callback stops)
     void stop();
+
+    // Set volume (0.0 to 1.0)
+    void setVolume(float volume);
+    float getVolume() const;
 
     // Producer API: write interleaved float frames into the ring buffer.
     // frameCount = number of frames (a frame contains `channels` samples).
@@ -72,9 +76,11 @@ private:
     std::atomic<size_t> tail_;         // read index in frames
 
     // PortAudio stream handle (implementation includes portaudio.h)
-    PaStream* stream_;
+    void* stream_;
     int sampleRate_;
     unsigned long framesPerBuffer_;
+    bool dummyMode_;
+    std::atomic<float> volume_;
 
     // Internal helper to ensure capacity is power-of-two
     static size_t nextPowerOfTwo(size_t v);

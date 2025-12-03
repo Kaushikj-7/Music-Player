@@ -21,6 +21,7 @@
 #include "audio_output.h"
 #include "../utils/logger.h"   // use existing Logger
 #include <portaudio.h>
+#include <string>
 #include <cstring>             // memcpy
 #include <algorithm>           // std::min
 #include <cmath>               // for next pow2 (if needed)
@@ -52,7 +53,9 @@ AudioOutput::AudioOutput()
       tail_(0),
       stream_(nullptr),
       sampleRate_(0),
-      framesPerBuffer_(0)
+      framesPerBuffer_(0),
+      dummyMode_(false),
+      volume_(1.0f)
 {}
 
 AudioOutput::~AudioOutput() {
@@ -92,12 +95,17 @@ bool AudioOutput::init(int sampleRate, int channels, unsigned long framesPerBuff
     std::memset(&outParams, 0, sizeof(outParams));
     outParams.device = Pa_GetDefaultOutputDevice();
     if (outParams.device == paNoDevice) {
-        Logger::instance().log(LogLevel::ERROR, "No default output device");
-        return false;
+        Logger::instance().log(LogLevel::WARNING, "No default output device. Falling back to DUMMY mode (no sound).");
+        dummyMode_ = true;
+        return true;
     }
     outParams.channelCount = channels_;
     outParams.sampleFormat = paFloat32; // we write float samples
-    outParams.suggestedLatency = Pa_GetDeviceInfo(outParams.device)->defaultLowOutputLatency;
+    
+    const PaDeviceInfo* deviceInfo = Pa_GetDeviceInfo(outParams.device);
+    Logger::instance().log(LogLevel::INFO, std::string("Using Audio Device: ") + deviceInfo->name);
+    outParams.suggestedLatency = deviceInfo->defaultHighOutputLatency;
+
     outParams.hostApiSpecificStreamInfo = nullptr;
 
     // Open stream with static callback lambda wrapper
@@ -129,11 +137,16 @@ bool AudioOutput::init(int sampleRate, int channels, unsigned long framesPerBuff
             size_t framesToRead = std::min<size_t>(framesPerBuffer, availableFrames);
 
             // Read framesToRead frames from ring buffer into outBuf
+            float vol = out->volume_.load(std::memory_order_relaxed);
             for (size_t f = 0; f < framesToRead; ++f) {
                 size_t idx = ((tail + f) & (out->capacityFrames_ - 1)) * out->channels_;
                 // copy channels_
                 for (int c = 0; c < out->channels_; ++c) {
-                    outBuf[f * out->channels_ + c] = out->buffer_[idx + c];
+                    float sample = out->buffer_[idx + c] * vol;
+                    // Soft-clip / Clamp to [-1.0, 1.0] to allow volume boost without wrapping
+                    if (sample > 1.0f) sample = 1.0f;
+                    else if (sample < -1.0f) sample = -1.0f;
+                    outBuf[f * out->channels_ + c] = sample;
                 }
             }
 
@@ -166,6 +179,10 @@ bool AudioOutput::init(int sampleRate, int channels, unsigned long framesPerBuff
 // start() / stop()
 // -----------------------------
 bool AudioOutput::start() {
+    if (dummyMode_) {
+        Logger::instance().log(LogLevel::INFO, "AudioOutput started (DUMMY mode)");
+        return true;
+    }
     if (!stream_) {
         Logger::instance().log(LogLevel::ERROR, "Stream not opened");
         return false;
@@ -180,6 +197,10 @@ bool AudioOutput::start() {
 }
 
 void AudioOutput::stop() {
+    if (dummyMode_) {
+        Logger::instance().log(LogLevel::INFO, "AudioOutput stopped (DUMMY mode)");
+        return;
+    }
     if (stream_) {
         Pa_StopStream(stream_);
         Pa_CloseStream(stream_);
@@ -194,6 +215,10 @@ void AudioOutput::stop() {
 //   - Must be called from a non-real-time thread (e.g. decoder thread).
 // -----------------------------
 size_t AudioOutput::write(const float* frames, size_t frameCount) {
+    if (dummyMode_) {
+        return frameCount;
+    }
+
     // Calculate current head/tail and free capacity in frames
     size_t head = head_.load(std::memory_order_acquire);
     size_t tail = tail_.load(std::memory_order_acquire);
@@ -228,4 +253,14 @@ size_t AudioOutput::size() const {
     size_t head = head_.load(std::memory_order_acquire);
     size_t tail = tail_.load(std::memory_order_acquire);
     return (head - tail) & (capacityFrames_ - 1);
+}
+
+void AudioOutput::setVolume(float volume) {
+    if (volume < 0.0f) volume = 0.0f;
+    if (volume > 1.0f) volume = 1.0f;
+    volume_.store(volume, std::memory_order_relaxed);
+}
+
+float AudioOutput::getVolume() const {
+    return volume_.load(std::memory_order_relaxed);
 }

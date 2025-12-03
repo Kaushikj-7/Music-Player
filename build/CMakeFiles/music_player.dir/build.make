@@ -139,13 +139,118 @@ CMakeFiles/music_player.dir/src/utils/logger.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/music_player.dir/src/utils/logger.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/src/utils/logger.cpp" -o CMakeFiles/music_player.dir/src/utils/logger.cpp.s
 
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui.cpp.o: CMakeFiles/music_player.dir/flags.make
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui.cpp.o: _deps/imgui-src/imgui.cpp
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui.cpp.o: CMakeFiles/music_player.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/music_player.dir/_deps/imgui-src/imgui.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/music_player.dir/_deps/imgui-src/imgui.cpp.o -MF CMakeFiles/music_player.dir/_deps/imgui-src/imgui.cpp.o.d -o CMakeFiles/music_player.dir/_deps/imgui-src/imgui.cpp.o -c "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/imgui.cpp"
+
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/music_player.dir/_deps/imgui-src/imgui.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/imgui.cpp" > CMakeFiles/music_player.dir/_deps/imgui-src/imgui.cpp.i
+
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/music_player.dir/_deps/imgui-src/imgui.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/imgui.cpp" -o CMakeFiles/music_player.dir/_deps/imgui-src/imgui.cpp.s
+
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui_demo.cpp.o: CMakeFiles/music_player.dir/flags.make
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui_demo.cpp.o: _deps/imgui-src/imgui_demo.cpp
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui_demo.cpp.o: CMakeFiles/music_player.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/music_player.dir/_deps/imgui-src/imgui_demo.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/music_player.dir/_deps/imgui-src/imgui_demo.cpp.o -MF CMakeFiles/music_player.dir/_deps/imgui-src/imgui_demo.cpp.o.d -o CMakeFiles/music_player.dir/_deps/imgui-src/imgui_demo.cpp.o -c "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/imgui_demo.cpp"
+
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui_demo.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/music_player.dir/_deps/imgui-src/imgui_demo.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/imgui_demo.cpp" > CMakeFiles/music_player.dir/_deps/imgui-src/imgui_demo.cpp.i
+
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui_demo.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/music_player.dir/_deps/imgui-src/imgui_demo.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/imgui_demo.cpp" -o CMakeFiles/music_player.dir/_deps/imgui-src/imgui_demo.cpp.s
+
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui_draw.cpp.o: CMakeFiles/music_player.dir/flags.make
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui_draw.cpp.o: _deps/imgui-src/imgui_draw.cpp
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui_draw.cpp.o: CMakeFiles/music_player.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/music_player.dir/_deps/imgui-src/imgui_draw.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/music_player.dir/_deps/imgui-src/imgui_draw.cpp.o -MF CMakeFiles/music_player.dir/_deps/imgui-src/imgui_draw.cpp.o.d -o CMakeFiles/music_player.dir/_deps/imgui-src/imgui_draw.cpp.o -c "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/imgui_draw.cpp"
+
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui_draw.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/music_player.dir/_deps/imgui-src/imgui_draw.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/imgui_draw.cpp" > CMakeFiles/music_player.dir/_deps/imgui-src/imgui_draw.cpp.i
+
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui_draw.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/music_player.dir/_deps/imgui-src/imgui_draw.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/imgui_draw.cpp" -o CMakeFiles/music_player.dir/_deps/imgui-src/imgui_draw.cpp.s
+
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui_tables.cpp.o: CMakeFiles/music_player.dir/flags.make
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui_tables.cpp.o: _deps/imgui-src/imgui_tables.cpp
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui_tables.cpp.o: CMakeFiles/music_player.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/music_player.dir/_deps/imgui-src/imgui_tables.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/music_player.dir/_deps/imgui-src/imgui_tables.cpp.o -MF CMakeFiles/music_player.dir/_deps/imgui-src/imgui_tables.cpp.o.d -o CMakeFiles/music_player.dir/_deps/imgui-src/imgui_tables.cpp.o -c "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/imgui_tables.cpp"
+
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui_tables.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/music_player.dir/_deps/imgui-src/imgui_tables.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/imgui_tables.cpp" > CMakeFiles/music_player.dir/_deps/imgui-src/imgui_tables.cpp.i
+
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui_tables.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/music_player.dir/_deps/imgui-src/imgui_tables.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/imgui_tables.cpp" -o CMakeFiles/music_player.dir/_deps/imgui-src/imgui_tables.cpp.s
+
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui_widgets.cpp.o: CMakeFiles/music_player.dir/flags.make
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui_widgets.cpp.o: _deps/imgui-src/imgui_widgets.cpp
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui_widgets.cpp.o: CMakeFiles/music_player.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/music_player.dir/_deps/imgui-src/imgui_widgets.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/music_player.dir/_deps/imgui-src/imgui_widgets.cpp.o -MF CMakeFiles/music_player.dir/_deps/imgui-src/imgui_widgets.cpp.o.d -o CMakeFiles/music_player.dir/_deps/imgui-src/imgui_widgets.cpp.o -c "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/imgui_widgets.cpp"
+
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui_widgets.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/music_player.dir/_deps/imgui-src/imgui_widgets.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/imgui_widgets.cpp" > CMakeFiles/music_player.dir/_deps/imgui-src/imgui_widgets.cpp.i
+
+CMakeFiles/music_player.dir/_deps/imgui-src/imgui_widgets.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/music_player.dir/_deps/imgui-src/imgui_widgets.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/imgui_widgets.cpp" -o CMakeFiles/music_player.dir/_deps/imgui-src/imgui_widgets.cpp.s
+
+CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_sdl2.cpp.o: CMakeFiles/music_player.dir/flags.make
+CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_sdl2.cpp.o: _deps/imgui-src/backends/imgui_impl_sdl2.cpp
+CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_sdl2.cpp.o: CMakeFiles/music_player.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_sdl2.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_sdl2.cpp.o -MF CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_sdl2.cpp.o.d -o CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_sdl2.cpp.o -c "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/backends/imgui_impl_sdl2.cpp"
+
+CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_sdl2.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_sdl2.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/backends/imgui_impl_sdl2.cpp" > CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_sdl2.cpp.i
+
+CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_sdl2.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_sdl2.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/backends/imgui_impl_sdl2.cpp" -o CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_sdl2.cpp.s
+
+CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o: CMakeFiles/music_player.dir/flags.make
+CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o: _deps/imgui-src/backends/imgui_impl_opengl3.cpp
+CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o: CMakeFiles/music_player.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o -MF CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o.d -o CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o -c "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/backends/imgui_impl_opengl3.cpp"
+
+CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/backends/imgui_impl_opengl3.cpp" > CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.i
+
+CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/backends/imgui_impl_opengl3.cpp" -o CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.s
+
 # Object files for target music_player
 music_player_OBJECTS = \
 "CMakeFiles/music_player.dir/src/main.cpp.o" \
 "CMakeFiles/music_player.dir/src/player/player.cpp.o" \
 "CMakeFiles/music_player.dir/src/decoder/ffmpeg_decoder.cpp.o" \
 "CMakeFiles/music_player.dir/src/audio/audio_output.cpp.o" \
-"CMakeFiles/music_player.dir/src/utils/logger.cpp.o"
+"CMakeFiles/music_player.dir/src/utils/logger.cpp.o" \
+"CMakeFiles/music_player.dir/_deps/imgui-src/imgui.cpp.o" \
+"CMakeFiles/music_player.dir/_deps/imgui-src/imgui_demo.cpp.o" \
+"CMakeFiles/music_player.dir/_deps/imgui-src/imgui_draw.cpp.o" \
+"CMakeFiles/music_player.dir/_deps/imgui-src/imgui_tables.cpp.o" \
+"CMakeFiles/music_player.dir/_deps/imgui-src/imgui_widgets.cpp.o" \
+"CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_sdl2.cpp.o" \
+"CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o"
 
 # External object files for target music_player
 music_player_EXTERNAL_OBJECTS =
@@ -155,10 +260,18 @@ bin/music_player: CMakeFiles/music_player.dir/src/player/player.cpp.o
 bin/music_player: CMakeFiles/music_player.dir/src/decoder/ffmpeg_decoder.cpp.o
 bin/music_player: CMakeFiles/music_player.dir/src/audio/audio_output.cpp.o
 bin/music_player: CMakeFiles/music_player.dir/src/utils/logger.cpp.o
+bin/music_player: CMakeFiles/music_player.dir/_deps/imgui-src/imgui.cpp.o
+bin/music_player: CMakeFiles/music_player.dir/_deps/imgui-src/imgui_demo.cpp.o
+bin/music_player: CMakeFiles/music_player.dir/_deps/imgui-src/imgui_draw.cpp.o
+bin/music_player: CMakeFiles/music_player.dir/_deps/imgui-src/imgui_tables.cpp.o
+bin/music_player: CMakeFiles/music_player.dir/_deps/imgui-src/imgui_widgets.cpp.o
+bin/music_player: CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_sdl2.cpp.o
+bin/music_player: CMakeFiles/music_player.dir/_deps/imgui-src/backends/imgui_impl_opengl3.cpp.o
 bin/music_player: CMakeFiles/music_player.dir/build.make
-bin/music_player: /usr/lib/x86_64-linux-gnu/libportaudio.so
+bin/music_player: /usr/lib/x86_64-linux-gnu/libGLX.so
+bin/music_player: /usr/lib/x86_64-linux-gnu/libOpenGL.so
 bin/music_player: CMakeFiles/music_player.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable bin/music_player"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable bin/music_player"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/music_player.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

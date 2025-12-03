@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 project(MusicPlayer
     VERSION 1.0
-    DESCRIPTION "Modular C++17 Music Player"
+    DESCRIPTION "Modular C++17 Music Player with GUI"
     LANGUAGES CXX
 )
 
@@ -18,23 +18,21 @@ else()
     add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# ---------------------------------------------------------
-# Output binary directory
-# ---------------------------------------------------------
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # ---------------------------------------------------------
-# Folder paths
+# Dependencies
 # ---------------------------------------------------------
-set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
-set(PLAYER_DIR ${SRC_DIR}/player)
-set(DECODER_DIR ${SRC_DIR}/decoder)
-set(AUDIO_DIR ${SRC_DIR}/audio)
-set(UTILS_DIR ${SRC_DIR}/utils)
+include(FetchContent)
 
-# ---------------------------------------------------------
-# pkg-config setup
-# ---------------------------------------------------------
+# Fetch Dear ImGui
+FetchContent_Declare(
+    imgui
+    GIT_REPOSITORY https://github.com/ocornut/imgui.git
+    GIT_TAG docking
+)
+FetchContent_MakeAvailable(imgui)
+
 find_package(PkgConfig REQUIRED)
 
 # FFmpeg
@@ -46,56 +44,55 @@ pkg_check_modules(SWR REQUIRED libswresample)
 # PortAudio
 pkg_check_modules(PORTAUDIO REQUIRED portaudio-2.0)
 
-# ---------------------------------------------------------
-# Include and link directories
-# ---------------------------------------------------------
-include_directories(
-    ${PLAYER_DIR}
-    ${DECODER_DIR}
-    ${AUDIO_DIR}
-    ${UTILS_DIR}
+# SDL2
+pkg_check_modules(SDL2 REQUIRED sdl2)
 
+# OpenGL
+find_package(OpenGL REQUIRED)
+
+# ---------------------------------------------------------
+# Sources
+# ---------------------------------------------------------
+set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
+
+# ImGui Sources
+set(IMGUI_DIR ${imgui_SOURCE_DIR})
+set(IMGUI_SOURCES
+    ${IMGUI_DIR}/imgui.cpp
+    ${IMGUI_DIR}/imgui_demo.cpp
+    ${IMGUI_DIR}/imgui_draw.cpp
+    ${IMGUI_DIR}/imgui_tables.cpp
+    ${IMGUI_DIR}/imgui_widgets.cpp
+    ${IMGUI_DIR}/backends/imgui_impl_sdl2.cpp
+    ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
+)
+
+add_executable(music_player
+    ${SRC_DIR}/main.cpp
+    ${SRC_DIR}/player/player.cpp
+    ${SRC_DIR}/decoder/ffmpeg_decoder.cpp
+    ${SRC_DIR}/audio/audio_output.cpp
+    ${SRC_DIR}/utils/logger.cpp
+    ${IMGUI_SOURCES}
+)
+
+# ---------------------------------------------------------
+# Include Directories
+# ---------------------------------------------------------
+target_include_directories(music_player PRIVATE
+    ${SRC_DIR}
     ${AVFORMAT_INCLUDE_DIRS}
     ${AVCODEC_INCLUDE_DIRS}
     ${AVUTIL_INCLUDE_DIRS}
     ${SWR_INCLUDE_DIRS}
     ${PORTAUDIO_INCLUDE_DIRS}
-)
-
-link_directories(
-    ${AVFORMAT_LIBRARY_DIRS}
-    ${AVCODEC_LIBRARY_DIRS}
-    ${AVUTIL_LIBRARY_DIRS}
-    ${SWR_LIBRARY_DIRS}
-    ${PORTAUDIO_LIBRARY_DIRS}
+    ${SDL2_INCLUDE_DIRS}
+    ${IMGUI_DIR}
+    ${IMGUI_DIR}/backends
 )
 
 # ---------------------------------------------------------
-# Source files
-# ---------------------------------------------------------
-set(SOURCES
-    ${SRC_DIR}/main.cpp
-
-    ${PLAYER_DIR}/player.cpp
-    ${PLAYER_DIR}/player.h
-
-    ${DECODER_DIR}/ffmpeg_decoder.cpp
-    ${DECODER_DIR}/ffmpeg_decoder.h
-
-    ${SRC_DIR}/audio/audio_output.cpp
-    ${SRC_DIR}/audio/audio_output.h
-
-    ${UTILS_DIR}/logger.cpp
-    ${UTILS_DIR}/logger.h
-)
-
-# ---------------------------------------------------------
-# Executable
-# ---------------------------------------------------------
-add_executable(music_player ${SOURCES})
-
-# ---------------------------------------------------------
-# Link libraries
+# Link Libraries
 # ---------------------------------------------------------
 target_link_libraries(music_player PRIVATE
     ${AVFORMAT_LIBRARIES}
@@ -103,14 +100,10 @@ target_link_libraries(music_player PRIVATE
     ${AVUTIL_LIBRARIES}
     ${SWR_LIBRARIES}
     ${PORTAUDIO_LIBRARIES}
+    ${SDL2_LIBRARIES}
+    OpenGL::GL
+    ${CMAKE_DL_LIBS}
 )
-
-# Fallback manual linking for PortAudio if pkg-config fails
-find_library(PORTAUDIO_LIB portaudio)
-
-if(PORTAUDIO_LIB)
-    target_link_libraries(music_player PRIVATE ${PORTAUDIO_LIB})
-endif()
 
 # ---------------------------------------------------------
 # Install

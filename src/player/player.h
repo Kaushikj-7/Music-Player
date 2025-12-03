@@ -45,8 +45,23 @@ public:
     // Stop playback (blocks until thread stops and audio device stops)
     void stop();
 
+    // Pause playback
+    void pause();
+
+    // Resume playback
+    void resume();
+
+    // Set volume (0.0 - 1.0)
+    void setVolume(float volume);
+
+    // Set playback speed (0.5x - 2.0x)
+    void setSpeed(float speed);
+    float getSpeed() const { return speed_; }
+
     // Query playback state
     bool isPlaying() const { return playing_.load(); }
+    bool isPaused() const { return paused_.load(); }
+    bool isFinished() const { return finished_.load(); }
 
 private:
     // Thread function executed by decoder thread
@@ -59,11 +74,14 @@ private:
 
     // Control flags
     std::atomic<bool> playing_;               // true while playback is active
+    std::atomic<bool> paused_;                // true while playback is paused
     std::atomic<bool> stopRequested_;         // set to request stop
+    std::atomic<bool> finished_;              // true when playback finished naturally
 
     // Worker thread that decodes and pushes audio
     std::thread decoderThread_;
 
     // File path currently loaded (for logging)
     std::string currentFile_;
+    float speed_ = 1.0f;
 };

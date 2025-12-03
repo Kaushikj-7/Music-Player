@@ -28,7 +28,9 @@ Player::Player()
     : decoder_(nullptr),
       audioOut_(nullptr),
       playing_(false),
-      stopRequested_(false)
+      paused_(false),
+      stopRequested_(false),
+      finished_(false)
 {}
 
 Player::~Player() {
@@ -56,7 +58,7 @@ bool Player::load(const std::string& filepath) {
     int sr = decoder_->getSampleRate();
     int ch = decoder_->getChannels();
 
-    if (!audioOut_->init(sr, ch, 512)) { // 512 frames per buffer is a common low-latency value
+    if (!audioOut_->init(sr, ch, 4096)) { // 4096 frames per buffer for better stability in WSL
         Logger::instance().log(LogLevel::ERROR, "Player: AudioOutput init failed");
         audioOut_.reset();
         decoder_->close();
@@ -90,6 +92,7 @@ bool Player::play() {
 
     // Reset flags
     stopRequested_.store(false);
+    finished_.store(false);
     playing_.store(true);
 
     // Launch decoder thread (producer)
@@ -143,6 +146,49 @@ void Player::stop() {
     Logger::instance().log(LogLevel::INFO, "Player: Playback stopped and resources released");
 }
 
+void Player::pause() {
+    if (playing_.load() && !paused_.load()) {
+        paused_.store(true);
+        if (audioOut_) audioOut_->stop(); // Stop stream to pause
+        Logger::instance().log(LogLevel::INFO, "Player: Paused");
+    }
+}
+
+void Player::resume() {
+    if (playing_.load() && paused_.load()) {
+        if (audioOut_) audioOut_->start(); // Restart stream
+        paused_.store(false);
+        Logger::instance().log(LogLevel::INFO, "Player: Resumed");
+    }
+}
+
+void Player::setVolume(float volume) {
+    if (audioOut_) {
+        audioOut_->setVolume(volume);
+    }
+}
+
+void Player::setSpeed(float speed) {
+    if (speed < 0.1f) speed = 0.1f;
+    if (speed > 4.0f) speed = 4.0f;
+    speed_ = speed;
+
+    if (audioOut_ && decoder_) {
+        // Restart audio output with new sample rate
+        bool wasPlaying = !paused_.load() && playing_.load();
+        audioOut_->stop();
+        
+        int sr = static_cast<int>(decoder_->getSampleRate() * speed_);
+        int ch = decoder_->getChannels();
+        // Re-init (this might clear buffer)
+        audioOut_->init(sr, ch, 4096);
+        
+        if (wasPlaying) {
+            audioOut_->start();
+        }
+    }
+}
+
 // decodeThreadFunc:
 // - Repeatedly calls decoder_->readSamples(...) to fetch up to framesPerRead frames
 // - Converts int16_t PCM -> float in [-1.0, +1.0]
@@ -152,7 +198,6 @@ void Player::stop() {
 // - This is a producer thread (non-RT). audioOut_->write() is designed to be called from non-RT thread.
 // - audioOut_'s callback (consumer) is running in PortAudio RT thread and is lock-free.
 void Player::decodeThreadFunc() {
-    const size_t framesPerRead = 1024; // frames to request per decode call (frame = channels samples)
     int channels = decoder_->getChannels();
 
     // Temporary buffers
@@ -160,12 +205,18 @@ void Player::decodeThreadFunc() {
     std::vector<float> floatBuf;
 
     while (!stopRequested_.load()) {
+        if (paused_.load()) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            continue;
+        }
+
         // decoder_->readSamples expects a sample count = frames * channels (implementation-defined).
         // Here we call decode(out_buffer) which returns number of samples (interleaved int16).
         int nSamples = decoder_->decode(intBuf);
         if (nSamples <= 0) {
             // EOF or error
             Logger::instance().log(LogLevel::INFO, "Player: Decoder returned 0 samples (EOF)");
+            finished_.store(true);
             break;
         }
 

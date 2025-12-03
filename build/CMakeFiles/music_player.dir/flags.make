@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I"/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/src/player" -I"/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/src/decoder" -I"/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/src/audio" -I"/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/src/utils"
+CXX_INCLUDES = -I"/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/src" -I/usr/include/SDL2 -I"/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src" -I"/mnt/c/Users/Kaushik j/OneDrive/Documents/project-x/build/_deps/imgui-src/backends"
 
 CXX_FLAGS = -std=gnu++17 -Wall -Wextra -Wpedantic
 
