@@ -25,6 +25,22 @@ namespace fs = std::filesystem;
 
 const std::string PLAYLIST_FILE = "playlist.txt";
 
+// Helper to convert Windows paths (e.g. "C:\Music") to WSL paths (e.g. "/mnt/c/Music")
+std::string convertWindowsPathToWSL(std::string path) {
+    // Remove surrounding quotes
+    if (path.size() >= 2 && path.front() == '"' && path.back() == '"') {
+        path = path.substr(1, path.size() - 2);
+    }
+    // Convert backslashes
+    std::replace(path.begin(), path.end(), '\\', '/');
+    // Convert drive letter
+    if (path.size() >= 2 && path[1] == ':') {
+        char drive = tolower(path[0]);
+        path = "/mnt/" + std::string(1, drive) + path.substr(2);
+    }
+    return path;
+}
+
 void savePlaylist(const std::vector<std::string>& playlist) {
     std::ofstream out(PLAYLIST_FILE);
     if (out.is_open()) {
@@ -221,7 +237,7 @@ int main(int argc, char** argv) {
             
             if (event.type == SDL_DROPFILE) {
                 char* dropped_file = event.drop.file;
-                std::string file_path = dropped_file;
+                std::string file_path = convertWindowsPathToWSL(dropped_file);
                 SDL_free(dropped_file);
                 try {
                     if (fs::is_directory(file_path)) {
@@ -389,7 +405,7 @@ int main(int argc, char** argv) {
             ImGui::InputTextWithHint("##addpath", "Paste folder path here...", pathBuffer, IM_ARRAYSIZE(pathBuffer));
             ImGui::SameLine();
             if (ImGui::Button("Add")) {
-                std::string newPath = pathBuffer;
+                std::string newPath = convertWindowsPathToWSL(pathBuffer);
                 try {
                     if (!newPath.empty() && fs::exists(newPath) && fs::is_directory(newPath)) {
                         for (const auto& entry : fs::directory_iterator(newPath)) {
