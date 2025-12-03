@@ -2,13 +2,23 @@
 cd /d "%~dp0"
 
 :: Ensure the binary is executable
-wsl chmod +x ./build/bin/music_player
+wsl chmod +x ./build_release/bin/music_player
 
-:: Check if a file was dragged onto the script or passed as an argument
-if "%~1"=="" (
-    :: No arguments, just run the player
-    wsl bash -c "export PULSE_SERVER=/mnt/wslg/PulseServer; export ALSA_CONFIG_PATH=\"$(wslpath -u '%~dp0asound.conf')\"; ./build/bin/music_player"
-) else (
-    :: Argument provided (e.g. "Open With"), convert path to WSL format and run
-    wsl bash -c "export PULSE_SERVER=/mnt/wslg/PulseServer; export ALSA_CONFIG_PATH=\"$(wslpath -u '%~dp0asound.conf')\"; ./build/bin/music_player \"$(wslpath -u '%~1')\""
-)
+:: Copy config to temp to avoid space-in-path issues with ALSA
+wsl cp ./asound.conf /tmp/asound.conf
+
+if "%~1"=="" goto NoArgs
+
+:WithArgs
+echo Opening file: %~1
+wsl bash -c "export PULSE_SERVER=/mnt/wslg/PulseServer; export ALSA_CONFIG_PATH=/tmp/asound.conf; ./build_release/bin/music_player \"$(wslpath -u '%~1')\""
+if %ERRORLEVEL% NEQ 0 pause
+goto End
+
+:NoArgs
+echo Starting Music Player...
+wsl bash -c "export PULSE_SERVER=/mnt/wslg/PulseServer; export ALSA_CONFIG_PATH=/tmp/asound.conf; ./build_release/bin/music_player"
+if %ERRORLEVEL% NEQ 0 pause
+goto End
+
+:End
