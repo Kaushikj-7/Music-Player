@@ -39,7 +39,11 @@ cat <<EOF > dist/music_player/MusicPlayer.bat
 @echo off
 cd /d "%~dp0"
 wsl chmod +x ./music_player
-wsl ./music_player %*
+if "%~1"=="" (
+    wsl ./music_player
+) else (
+    wsl ./music_player "\$(wslpath -u '%~1')"
+)
 EOF
 
 # Archive as tar.gz (Linux)

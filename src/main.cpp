@@ -15,12 +15,37 @@
 #include "utils/logger.h"
 
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 #include <filesystem>
 #include <algorithm>
 
 namespace fs = std::filesystem;
+
+const std::string PLAYLIST_FILE = "playlist.txt";
+
+void savePlaylist(const std::vector<std::string>& playlist) {
+    std::ofstream out(PLAYLIST_FILE);
+    if (out.is_open()) {
+        for (const auto& path : playlist) {
+            out << path << "\n";
+        }
+    }
+}
+
+void loadPlaylist(std::vector<std::string>& playlist) {
+    std::ifstream in(PLAYLIST_FILE);
+    std::string line;
+    if (in.is_open()) {
+        while (std::getline(in, line)) {
+            // Only add if file still exists
+            if (!line.empty() && fs::exists(line)) {
+                playlist.push_back(line);
+            }
+        }
+    }
+}
 
 void SetupStyle() {
     ImGuiStyle& style = ImGui::GetStyle();
@@ -132,36 +157,55 @@ int main(int argc, char** argv) {
     bool loop = false;
     float speed = 1.0f;
 
-    // Scan current directory for audio files
+    // Load persistent playlist
+    loadPlaylist(playlist);
+
+    // Scan current directory for audio files (Optional: Remove this if you only want persistent playlist)
+    // For now, I'll comment it out to strictly follow "remain permanently until i delete it"
+    /*
     try {
         for (const auto& entry : fs::directory_iterator(fs::current_path())) {
             if (entry.is_regular_file()) {
                 std::string ext = entry.path().extension().string();
                 // Simple check for common audio extensions
                 if (ext == ".wav" || ext == ".mp3" || ext == ".flac" || ext == ".ogg") {
-                    playlist.push_back(entry.path().filename().string());
+                    playlist.push_back(fs::absolute(entry.path()).string());
                 }
             }
         }
     } catch (...) {
         Logger::instance().log(LogLevel::ERROR, "Failed to scan directory");
     }
+    */
+    
+    // Remove duplicates and sort
     std::sort(playlist.begin(), playlist.end());
+    playlist.erase(std::unique(playlist.begin(), playlist.end()), playlist.end());
 
     if (argc > 1) {
         // If file provided in args, try to find it in playlist or add it
         std::string argFile = argv[1];
+        // Ensure absolute path if possible, though argv[1] from wslpath should be absolute
+        if (fs::exists(argFile)) {
+             argFile = fs::absolute(argFile).string();
+        }
+
         auto it = std::find(playlist.begin(), playlist.end(), argFile);
         if (it != playlist.end()) {
             currentTrackIndex = std::distance(playlist.begin(), it);
         } else {
             playlist.push_back(argFile);
             currentTrackIndex = playlist.size() - 1;
+            savePlaylist(playlist); // Save immediately
         }
         
         if (player.load(playlist[currentTrackIndex])) {
             player.play();
         }
+    } else if (!playlist.empty()) {
+        // If no args but playlist exists, load first track but don't auto-play
+        currentTrackIndex = 0;
+        player.load(playlist[currentTrackIndex]);
     }
 
     // Main loop
@@ -174,6 +218,31 @@ int main(int argc, char** argv) {
                 done = true;
             if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(window))
                 done = true;
+            
+            if (event.type == SDL_DROPFILE) {
+                char* dropped_file = event.drop.file;
+                std::string file_path = dropped_file;
+                SDL_free(dropped_file);
+                try {
+                    if (fs::is_directory(file_path)) {
+                        for (const auto& entry : fs::directory_iterator(file_path)) {
+                            if (entry.is_regular_file()) {
+                                std::string ext = entry.path().extension().string();
+                                if (ext == ".wav" || ext == ".mp3" || ext == ".flac" || ext == ".ogg") {
+                                    playlist.push_back(fs::absolute(entry.path()).string());
+                                }
+                            }
+                        }
+                    } else {
+                        playlist.push_back(file_path);
+                    }
+                    std::sort(playlist.begin(), playlist.end());
+                    playlist.erase(std::unique(playlist.begin(), playlist.end()), playlist.end());
+                    savePlaylist(playlist);
+                } catch (...) {
+                    Logger::instance().log(LogLevel::ERROR, "Failed to process dropped file");
+                }
+            }
         }
 
         // Auto-advance or Loop
@@ -315,12 +384,47 @@ int main(int argc, char** argv) {
             ImGui::Separator();
             ImGui::Spacing();
 
+            // Add Path UI
+            static char pathBuffer[512] = "";
+            ImGui::InputTextWithHint("##addpath", "Paste folder path here...", pathBuffer, IM_ARRAYSIZE(pathBuffer));
+            ImGui::SameLine();
+            if (ImGui::Button("Add")) {
+                std::string newPath = pathBuffer;
+                try {
+                    if (!newPath.empty() && fs::exists(newPath) && fs::is_directory(newPath)) {
+                        for (const auto& entry : fs::directory_iterator(newPath)) {
+                            if (entry.is_regular_file()) {
+                                std::string ext = entry.path().extension().string();
+                                if (ext == ".wav" || ext == ".mp3" || ext == ".flac" || ext == ".ogg") {
+                                    playlist.push_back(fs::absolute(entry.path()).string());
+                                }
+                            }
+                        }
+                        std::sort(playlist.begin(), playlist.end());
+                        playlist.erase(std::unique(playlist.begin(), playlist.end()), playlist.end());
+                        savePlaylist(playlist);
+                        memset(pathBuffer, 0, sizeof(pathBuffer));
+                    }
+                } catch (...) {}
+            }
+            ImGui::Spacing();
+
+            // Clear Playlist Button
+            if (ImGui::Button("Clear Playlist")) {
+                player.stop();
+                playlist.clear();
+                currentTrackIndex = -1;
+                savePlaylist(playlist);
+            }
+            ImGui::Spacing();
+
             // Playlist
             ImGui::Text("Playlist (%zu files)", playlist.size());
             ImGui::BeginChild("PlaylistRegion", ImVec2(0, -30), true);
             for (int i = 0; i < (int)playlist.size(); i++) {
                 bool isSelected = (currentTrackIndex == i);
-                if (ImGui::Selectable(playlist[i].c_str(), isSelected)) {
+                std::string displayName = fs::path(playlist[i]).filename().string();
+                if (ImGui::Selectable(displayName.c_str(), isSelected)) {
                     currentTrackIndex = i;
                     if (player.load(playlist[currentTrackIndex])) {
                         player.setSpeed(speed);
