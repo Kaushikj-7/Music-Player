@@ -21,4 +21,4 @@ if %ERRORLEVEL% NEQ 0 (
 
 echo.
 echo [2/2] Launching Application...
-wsl export PULSE_SERVER=/mnt/wslg/PulseServer; export ALSA_CONFIG_PATH=$(wslpath -u "%~dp0asound.conf"); ./build/bin/music_player
+wsl bash -c "export PULSE_SERVER=/mnt/wslg/PulseServer; export ALSA_CONFIG_PATH=\"$(wslpath -u '%~dp0asound.conf')\"; ./build/bin/music_player"
